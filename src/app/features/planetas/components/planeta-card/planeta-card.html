@@ -1,0 +1,16 @@
+<article class="relative flex h-full flex-col overflow-hidden rounded-xl border border-stone-200 bg-white shadow-sm transition-shadow hover:shadow-md">
+  @if (planeta().isDestroyed) {
+    <span class="absolute top-2 right-2 rounded bg-red-600 px-2 py-1 text-xs font-bold text-white uppercase shadow-sm z-10">
+      Destruido
+    </span>
+  }
+  
+  <figure class="flex h-48 items-center justify-center bg-stone-100 overflow-hidden relative">
+    <img [src]="planeta().image" [alt]="planeta().name" class="h-full w-full object-cover transition-transform duration-300 hover:scale-105" loading="lazy" />
+  </figure>
+  
+  <div class="flex flex-1 flex-col p-4">
+    <h3 class="mb-2 text-lg font-bold text-stone-900">{{ planeta().name }}</h3>
+    <p class="text-sm text-stone-600 cursor-pointer" [class.line-clamp-3]="!expandido()" (click)="toggle()" [title]="planeta().description">{{ planeta().description }}</p>
+  </div>
+</article>
