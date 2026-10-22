@@ -1,30 +1,27 @@
 import { Routes } from '@angular/router';
 
-// Rutas de primer nivel: cada feature trae sus propias rutas y se carga diferida.
 export const routes: Routes = [
-  // [E31] Ruta vacía -> redirige. pathMatch 'full': solo si la URL es exactamente ''
   { path: '', redirectTo: 'personajes', pathMatch: 'full' },
   {
-    // [E32] loadChildren: la feature trae sus propias rutas y se descarga al entrar
     path: 'personajes',
-    loadChildren: () => import('./features/personajes/personajes.routes').then((m) => m.PERSONAJES_ROUTES),
+    loadChildren: () => import('./domains/characters/characters.routes').then((m) => m.CHARACTER_ROUTES),
   },
   {
     path: 'planetas',
-    loadChildren: () => import('./features/planetas/planetas.routes').then((m) => m.PLANETAS_ROUTES),
+    loadChildren: () => import('./domains/planets/planets.routes').then((m) => m.PLANET_ROUTES),
   },
   {
     path: 'favoritos',
-    loadChildren: () => import('./features/favoritos/favoritos.routes').then((m) => m.FAVORITOS_ROUTES),
+    loadChildren: () => import('./domains/favorites/favorites.routes').then((m) => m.FAVORITE_ROUTES),
   },
   {
     path: 'sugerir',
-    loadChildren: () => import('./features/sugerencias/sugerencias.routes').then((m) => m.SUGERENCIAS_ROUTES),
+    loadChildren: () => import('./domains/suggestions/suggestions.routes').then((m) => m.SUGGESTION_ROUTES),
   },
   {
-    // [E33] '**' atrapa cualquier URL que no exista. Siempre al final
+    // Catch-all: must stay last.
     path: '**',
     title: 'No encontrada',
-    loadComponent: () => import('./core/layout/no-encontrada/no-encontrada').then((m) => m.NoEncontrada),
+    loadComponent: () => import('./platform/layout/not-found/not-found').then((m) => m.NotFound),
   },
 ];

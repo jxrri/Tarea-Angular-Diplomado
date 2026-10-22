@@ -1,0 +1,21 @@
+@if (pageCount() > 1) {
+  <nav class="mt-8 flex items-center justify-center gap-4" aria-label="Paginación">
+    <button
+      type="button"
+      (click)="step(-1)"
+      [disabled]="page() === 1"
+      class="flex items-center gap-1 rounded-lg border border-stone-300 bg-white px-3 py-2 disabled:cursor-not-allowed disabled:opacity-40"
+    >
+      <svg lucideChevronLeft class="size-4"></svg> Anterior
+    </button>
+    <span class="text-sm tabular-nums">{{ page() }} / {{ pageCount() }}</span>
+    <button
+      type="button"
+      (click)="step(1)"
+      [disabled]="page() === pageCount()"
+      class="flex items-center gap-1 rounded-lg border border-stone-300 bg-white px-3 py-2 disabled:cursor-not-allowed disabled:opacity-40"
+    >
+      Siguiente <svg lucideChevronRight class="size-4"></svg>
+    </button>
+  </nav>
+}

@@ -1,0 +1,30 @@
+<app-character-filters
+  [text]="text()"
+  [race]="race()"
+  [races]="races"
+  [gender]="gender()"
+  [genders]="genders"
+  (textChange)="onTextChange($event)"
+  (raceChange)="onRaceChange($event)"
+  (genderChange)="onGenderChange($event)"
+/>
+
+@if (loading()) {
+  <p class="text-stone-500">Cargando…</p>
+} @else {
+  <p class="mb-4 text-sm text-stone-500">{{ total() }} resultados · página {{ page() }} de {{ pageCount() }}</p>
+
+  <section class="columns-2 gap-4 sm:columns-3 lg:columns-4">
+    @for (c of characters(); track c.id) {
+      <app-character-card
+        [character]="c"
+        [isFavorite]="favorites.has(c.id)"
+        (favoriteToggled)="favorites.toggle($event)"
+      />
+    } @empty {
+      <p class="col-span-full text-stone-500">Nadie se llama "{{ text() }}" en este universo.</p>
+    }
+  </section>
+
+  <app-pager [page]="page()" [pageCount]="pageCount()" (changed)="page.set($event)" />
+}

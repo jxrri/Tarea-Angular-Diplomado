@@ -1,0 +1,63 @@
+<a routerLink="/personajes" class="mb-6 inline-flex items-center gap-1.5 text-sm font-medium text-capsula-700 hover:underline">
+  <svg lucideArrowLeft class="size-4"></svg> Volver al listado
+</a>
+
+@if (character(); as c) {
+  <article class="grid gap-8 rounded-2xl border border-stone-200 bg-white p-6 md:grid-cols-[320px_1fr]">
+    <div class="grid place-items-center rounded-xl bg-linear-to-b from-ki-100 to-ki-50 p-6">
+      <img [src]="c.image" [alt]="c.name" class="max-h-96 object-contain" />
+    </div>
+
+    <div class="flex flex-col gap-4">
+      <div>
+        <h2 class="text-3xl font-bold">{{ c.name }}</h2>
+        <p class="text-stone-500">{{ c.race }} · {{ c.affiliation }}</p>
+      </div>
+
+      <dl class="grid grid-cols-2 gap-3 text-sm">
+        <div class="rounded-lg bg-stone-50 p-3">
+          <dt class="flex items-center gap-1 text-stone-500"><svg lucideZap class="size-4 text-ki-600"></svg> Ki</dt>
+          <dd class="font-semibold">{{ c.ki }}</dd>
+        </div>
+        <div class="rounded-lg bg-stone-50 p-3">
+          <dt class="flex items-center gap-1 text-stone-500"><svg lucideZap class="size-4 text-ki-600"></svg> Ki máximo</dt>
+          <dd class="font-semibold">{{ c.maxKi }}</dd>
+        </div>
+        @if (c.originPlanet; as planet) {
+          <div class="col-span-2 rounded-lg bg-stone-50 p-3">
+            <dt class="flex items-center gap-1 text-stone-500"><svg lucideGlobe class="size-4"></svg> Planeta de origen</dt>
+            <dd class="font-semibold">{{ planet.name }} @if (planet.isDestroyed) { <span class="font-normal text-red-700">(destruido)</span> }</dd>
+          </div>
+        }
+      </dl>
+
+      @if (c.description) {
+        <p class="leading-relaxed text-stone-700">{{ c.description }}</p>
+      }
+
+      <button
+        type="button"
+        (click)="favorites.toggle(c.id)"
+        class="flex w-fit items-center gap-2 rounded-lg bg-ki-500 px-4 py-2 font-medium text-white hover:bg-ki-600"
+      >
+        <svg lucideStar class="size-4" [class.fill-current]="favorites.has(c.id)"></svg>
+        {{ favorites.has(c.id) ? 'Quitar de favoritos' : 'Agregar a favoritos' }}
+      </button>
+    </div>
+  </article>
+
+  @if (c.transformations?.length) {
+    <h3 class="mt-10 mb-4 text-xl font-semibold">Transformaciones</h3>
+    <div class="grid grid-cols-2 gap-4 sm:grid-cols-4">
+      @for (t of c.transformations; track t.id) {
+        <figure class="rounded-xl border border-stone-200 bg-white p-3 text-center">
+          <img [src]="t.image" [alt]="t.name" loading="lazy" class="mx-auto h-40 object-contain" />
+          <figcaption class="mt-2 text-sm font-medium">{{ t.name }}</figcaption>
+          <p class="text-xs text-stone-500">Ki {{ t.ki }}</p>
+        </figure>
+      }
+    </div>
+  }
+} @else {
+  <p class="text-stone-500">Cargando personaje…</p>
+}
