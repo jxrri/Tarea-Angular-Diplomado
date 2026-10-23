@@ -8,19 +8,17 @@ describe('App', () => {
     vi.stubGlobal('localStorage', { getItem: vi.fn(), setItem: vi.fn(), clear: vi.fn() });
     await TestBed.configureTestingModule({
       imports: [App],
-      // [E82] El header usa routerLink: le damos un router vacío
       providers: [provideRouter([])],
     }).compileComponents();
   });
 
-  it('se crea el componente raíz', () => {
+  it('creates the root component', () => {
     const fixture = TestBed.createComponent(App);
     expect(fixture.componentInstance).toBeTruthy();
   });
 
-  it('muestra el título', async () => {
+  it('renders the page title', async () => {
     const fixture = TestBed.createComponent(App);
-    // [E83] Esperar a que la vista termine de pintarse
     await fixture.whenStable();
     const html = fixture.nativeElement as HTMLElement;
     expect(html.querySelector('h1')?.textContent).toContain('Directorio de Personajes');

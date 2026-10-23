@@ -1,0 +1,12 @@
+<h2 class="mb-6 text-2xl font-bold">Mis favoritos</h2>
+
+<section class="columns-2 gap-4 sm:columns-3 lg:columns-4">
+  @for (c of characters(); track c.id) {
+    <app-character-card [character]="c" [isFavorite]="true" (favoriteToggled)="favorites.toggle($event)" />
+  } @empty {
+    <p class="col-span-full text-stone-500">
+      Todavía no marcaste ninguno.
+      <a routerLink="/personajes" class="font-medium text-capsula-700 underline">Ir al listado</a>
+    </p>
+  }
+</section>

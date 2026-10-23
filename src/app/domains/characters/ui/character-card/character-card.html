@@ -1,0 +1,51 @@
+@let c = character();
+
+<article
+  class="flex flex-col overflow-hidden rounded-xl border bg-white shadow-sm transition"
+  [class.border-stone-200]="!isFavorite()"
+  [class.border-ki-500]="isFavorite()"
+  [class.ring-2]="isFavorite()"
+  [class.ring-ki-500]="isFavorite()"
+>
+  <div class="flex justify-center bg-linear-to-b from-ki-100 to-ki-50 p-4">
+    @if (imageFailed()) {
+      <svg lucideImageOff class="my-12 size-12 text-stone-400"></svg>
+    } @else {
+      <img [src]="c.image" [alt]="c.name" loading="lazy" (error)="imageFailed.set(true)" class="h-auto w-full object-contain" />
+    }
+  </div>
+
+  <div class="flex flex-1 flex-col gap-2 p-4">
+    <h3 class="text-lg font-semibold leading-tight">
+      <a [routerLink]="['/personajes', c.id]" class="hover:text-capsula-700 hover:underline">{{ c.name }}</a>
+    </h3>
+
+    <div class="flex flex-wrap gap-1.5 text-xs">
+      <span class="rounded-full bg-capsula-700 px-2 py-0.5 font-medium text-white">{{ c.race }}</span>
+      <span class="rounded-full bg-stone-100 px-2 py-0.5 text-stone-700">
+        @switch (c.gender) {
+          @case ('Male') { Masculino }
+          @case ('Female') { Femenino }
+          @default { Desconocido }
+        }
+      </span>
+    </div>
+
+    <p class="flex items-center gap-1 text-sm text-stone-600">
+      <svg lucideZap class="size-4 text-ki-600"></svg>
+      Ki: <span class="font-medium text-stone-900">{{ c.ki }}</span>
+    </p>
+    <p class="text-xs text-stone-500">{{ c.affiliation }}</p>
+
+    <button
+      type="button"
+      (click)="onToggle()"
+      [attr.aria-pressed]="isFavorite()"
+      class="mt-auto flex items-center justify-center gap-1.5 rounded-lg border px-3 py-1.5 text-sm font-medium transition"
+      [class]="isFavorite() ? 'border-ki-500 bg-ki-500 text-white' : 'border-stone-300 text-stone-700 hover:bg-stone-50'"
+    >
+      <svg lucideStar class="size-4" [class.fill-current]="isFavorite()"></svg>
+      {{ isFavorite() ? 'Favorito' : 'Marcar favorito' }}
+    </button>
+  </div>
+</article>
